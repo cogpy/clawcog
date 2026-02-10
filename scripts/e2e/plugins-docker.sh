@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-IMAGE_NAME="openclaw-plugins-e2e"
+IMAGE_NAME="opencog-plugins-e2e"
 
 echo "Building Docker image..."
 docker build -t "$IMAGE_NAME" -f "$ROOT_DIR/scripts/e2e/Dockerfile" "$ROOT_DIR"
@@ -11,21 +11,21 @@ echo "Running plugins Docker E2E..."
 	docker run --rm -t "$IMAGE_NAME" bash -lc '
 	  set -euo pipefail
 	  if [ -f dist/index.mjs ]; then
-	    OPENCLAW_ENTRY="dist/index.mjs"
+	    OPENCOG_ENTRY="dist/index.mjs"
 	  elif [ -f dist/index.js ]; then
-	    OPENCLAW_ENTRY="dist/index.js"
+	    OPENCOG_ENTRY="dist/index.js"
 	  else
 	    echo "Missing dist/index.(m)js (build output):"
 	    ls -la dist || true
 	    exit 1
 	  fi
-	  export OPENCLAW_ENTRY
+	  export OPENCOG_ENTRY
 
-	  home_dir=$(mktemp -d "/tmp/openclaw-plugins-e2e.XXXXXX")
+	  home_dir=$(mktemp -d "/tmp/opencog-plugins-e2e.XXXXXX")
 	  export HOME="$home_dir"
-  mkdir -p "$HOME/.openclaw/extensions/demo-plugin"
+  mkdir -p "$HOME/.opencog/extensions/demo-plugin"
 
-  cat > "$HOME/.openclaw/extensions/demo-plugin/index.js" <<'"'"'JS'"'"'
+  cat > "$HOME/.opencog/extensions/demo-plugin/index.js" <<'"'"'JS'"'"'
 module.exports = {
   id: "demo-plugin",
   name: "Demo Plugin",
@@ -38,7 +38,7 @@ module.exports = {
   },
 };
 JS
-  cat > "$HOME/.openclaw/extensions/demo-plugin/openclaw.plugin.json" <<'"'"'JSON'"'"'
+  cat > "$HOME/.opencog/extensions/demo-plugin/opencog.plugin.json" <<'"'"'JSON'"'"'
 {
   "id": "demo-plugin",
   "configSchema": {
@@ -48,7 +48,7 @@ JS
 }
 JSON
 
-	  node "$OPENCLAW_ENTRY" plugins list --json > /tmp/plugins.json
+	  node "$OPENCOG_ENTRY" plugins list --json > /tmp/plugins.json
 
   node - <<'"'"'NODE'"'"'
 const fs = require("node:fs");
@@ -80,13 +80,13 @@ console.log("ok");
 NODE
 
   echo "Testing tgz install flow..."
-  pack_dir="$(mktemp -d "/tmp/openclaw-plugin-pack.XXXXXX")"
+  pack_dir="$(mktemp -d "/tmp/opencog-plugin-pack.XXXXXX")"
   mkdir -p "$pack_dir/package"
   cat > "$pack_dir/package/package.json" <<'"'"'JSON'"'"'
 {
-  "name": "@openclaw/demo-plugin-tgz",
+  "name": "@opencog/demo-plugin-tgz",
   "version": "0.0.1",
-  "openclaw": { "extensions": ["./index.js"] }
+  "opencog": { "extensions": ["./index.js"] }
 }
 JSON
   cat > "$pack_dir/package/index.js" <<'"'"'JS'"'"'
@@ -98,7 +98,7 @@ module.exports = {
   },
 };
 JS
-  cat > "$pack_dir/package/openclaw.plugin.json" <<'"'"'JSON'"'"'
+  cat > "$pack_dir/package/opencog.plugin.json" <<'"'"'JSON'"'"'
 {
   "id": "demo-plugin-tgz",
   "configSchema": {
@@ -109,8 +109,8 @@ JS
 JSON
   tar -czf /tmp/demo-plugin-tgz.tgz -C "$pack_dir" package
 
-	  node "$OPENCLAW_ENTRY" plugins install /tmp/demo-plugin-tgz.tgz
-	  node "$OPENCLAW_ENTRY" plugins list --json > /tmp/plugins2.json
+	  node "$OPENCOG_ENTRY" plugins install /tmp/demo-plugin-tgz.tgz
+	  node "$OPENCOG_ENTRY" plugins list --json > /tmp/plugins2.json
 
   node - <<'"'"'NODE'"'"'
 const fs = require("node:fs");
@@ -128,12 +128,12 @@ console.log("ok");
 NODE
 
   echo "Testing install from local folder (plugins.load.paths)..."
-  dir_plugin="$(mktemp -d "/tmp/openclaw-plugin-dir.XXXXXX")"
+  dir_plugin="$(mktemp -d "/tmp/opencog-plugin-dir.XXXXXX")"
   cat > "$dir_plugin/package.json" <<'"'"'JSON'"'"'
 {
-  "name": "@openclaw/demo-plugin-dir",
+  "name": "@opencog/demo-plugin-dir",
   "version": "0.0.1",
-  "openclaw": { "extensions": ["./index.js"] }
+  "opencog": { "extensions": ["./index.js"] }
 }
 JSON
   cat > "$dir_plugin/index.js" <<'"'"'JS'"'"'
@@ -145,7 +145,7 @@ module.exports = {
   },
 };
 JS
-  cat > "$dir_plugin/openclaw.plugin.json" <<'"'"'JSON'"'"'
+  cat > "$dir_plugin/opencog.plugin.json" <<'"'"'JSON'"'"'
 {
   "id": "demo-plugin-dir",
   "configSchema": {
@@ -155,8 +155,8 @@ JS
 }
 JSON
 
-	  node "$OPENCLAW_ENTRY" plugins install "$dir_plugin"
-	  node "$OPENCLAW_ENTRY" plugins list --json > /tmp/plugins3.json
+	  node "$OPENCOG_ENTRY" plugins install "$dir_plugin"
+	  node "$OPENCOG_ENTRY" plugins list --json > /tmp/plugins3.json
 
   node - <<'"'"'NODE'"'"'
 const fs = require("node:fs");
@@ -174,13 +174,13 @@ console.log("ok");
 NODE
 
   echo "Testing install from npm spec (file:)..."
-  file_pack_dir="$(mktemp -d "/tmp/openclaw-plugin-filepack.XXXXXX")"
+  file_pack_dir="$(mktemp -d "/tmp/opencog-plugin-filepack.XXXXXX")"
   mkdir -p "$file_pack_dir/package"
   cat > "$file_pack_dir/package/package.json" <<'"'"'JSON'"'"'
 {
-  "name": "@openclaw/demo-plugin-file",
+  "name": "@opencog/demo-plugin-file",
   "version": "0.0.1",
-  "openclaw": { "extensions": ["./index.js"] }
+  "opencog": { "extensions": ["./index.js"] }
 }
 JSON
   cat > "$file_pack_dir/package/index.js" <<'"'"'JS'"'"'
@@ -192,7 +192,7 @@ module.exports = {
   },
 };
 JS
-  cat > "$file_pack_dir/package/openclaw.plugin.json" <<'"'"'JSON'"'"'
+  cat > "$file_pack_dir/package/opencog.plugin.json" <<'"'"'JSON'"'"'
 {
   "id": "demo-plugin-file",
   "configSchema": {
@@ -202,8 +202,8 @@ JS
 }
 JSON
 
-	  node "$OPENCLAW_ENTRY" plugins install "file:$file_pack_dir/package"
-	  node "$OPENCLAW_ENTRY" plugins list --json > /tmp/plugins4.json
+	  node "$OPENCOG_ENTRY" plugins install "file:$file_pack_dir/package"
+	  node "$OPENCOG_ENTRY" plugins list --json > /tmp/plugins4.json
 
   node - <<'"'"'NODE'"'"'
 const fs = require("node:fs");

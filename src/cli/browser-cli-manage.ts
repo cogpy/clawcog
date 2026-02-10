@@ -49,7 +49,7 @@ export function registerBrowserManageCommands(
         const detectedDisplay = detectedPath ? shortenHomePath(detectedPath) : "auto";
         defaultRuntime.log(
           [
-            `profile: ${status.profile ?? "openclaw"}`,
+            `profile: ${status.profile ?? "opencog"}`,
             `enabled: ${status.enabled}`,
             `running: ${status.running}`,
             `cdpPort: ${status.cdpPort}`,
@@ -93,8 +93,8 @@ export function registerBrowserManageCommands(
           defaultRuntime.log(JSON.stringify(status, null, 2));
           return;
         }
-        const name = status.profile ?? "openclaw";
-        defaultRuntime.log(info(`🦞 browser [${name}] running: ${status.running}`));
+        const name = status.profile ?? "opencog";
+        defaultRuntime.log(info(`🧠 browser [${name}] running: ${status.running}`));
       });
     });
 
@@ -127,8 +127,8 @@ export function registerBrowserManageCommands(
           defaultRuntime.log(JSON.stringify(status, null, 2));
           return;
         }
-        const name = status.profile ?? "openclaw";
-        defaultRuntime.log(info(`🦞 browser [${name}] running: ${status.running}`));
+        const name = status.profile ?? "opencog";
+        defaultRuntime.log(info(`🧠 browser [${name}] running: ${status.running}`));
       });
     });
 
@@ -153,11 +153,11 @@ export function registerBrowserManageCommands(
           return;
         }
         if (!result.moved) {
-          defaultRuntime.log(info(`🦞 browser profile already missing.`));
+          defaultRuntime.log(info(`🧠 browser profile already missing.`));
           return;
         }
         const dest = result.to ?? result.from;
-        defaultRuntime.log(info(`🦞 browser profile moved to Trash (${dest})`));
+        defaultRuntime.log(info(`🧠 browser profile moved to Trash (${dest})`));
       });
     });
 
@@ -458,7 +458,7 @@ export function registerBrowserManageCommands(
     .requiredOption("--name <name>", "Profile name (lowercase, numbers, hyphens)")
     .option("--color <hex>", "Profile color (hex format, e.g. #0066CC)")
     .option("--cdp-url <url>", "CDP URL for remote Chrome (http/https)")
-    .option("--driver <driver>", "Profile driver (openclaw|extension). Default: openclaw")
+    .option("--driver <driver>", "Profile driver (opencog|extension). Default: opencog")
     .action(
       async (opts: { name: string; color?: string; cdpUrl?: string; driver?: string }, cmd) => {
         const parent = parentOpts(cmd);
@@ -484,7 +484,7 @@ export function registerBrowserManageCommands(
           const loc = result.isRemote ? `  cdpUrl: ${result.cdpUrl}` : `  port: ${result.cdpPort}`;
           defaultRuntime.log(
             info(
-              `🦞 Created profile "${result.profile}"\n${loc}\n  color: ${result.color}${
+              `🧠 Created profile "${result.profile}"\n${loc}\n  color: ${result.color}${
                 opts.driver === "extension" ? "\n  driver: extension" : ""
               }`,
             ),
@@ -513,8 +513,8 @@ export function registerBrowserManageCommands(
           return;
         }
         const msg = result.deleted
-          ? `🦞 Deleted profile "${result.profile}" (user data removed)`
-          : `🦞 Deleted profile "${result.profile}" (no user data found)`;
+          ? `🧠 Deleted profile "${result.profile}" (user data removed)`
+          : `🧠 Deleted profile "${result.profile}" (no user data found)`;
         defaultRuntime.log(info(msg));
       });
     });

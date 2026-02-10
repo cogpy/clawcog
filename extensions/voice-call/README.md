@@ -1,6 +1,6 @@
-# @openclaw/voice-call
+# @opencog/voice-call
 
-Official Voice Call plugin for **OpenClaw**.
+Official Voice Call plugin for **OpenCog**.
 
 Providers:
 
@@ -9,15 +9,15 @@ Providers:
 - **Plivo** (Voice API + XML transfer + GetInput speech)
 - **Mock** (dev/no network)
 
-Docs: `https://docs.openclaw.ai/plugins/voice-call`
-Plugin system: `https://docs.openclaw.ai/plugin`
+Docs: `https://docs.opencog.ai/plugins/voice-call`
+Plugin system: `https://docs.opencog.ai/plugin`
 
 ## Install (local dev)
 
-### Option A: install via OpenClaw (recommended)
+### Option A: install via OpenCog (recommended)
 
 ```bash
-openclaw plugins install @openclaw/voice-call
+opencog plugins install @opencog/voice-call
 ```
 
 Restart the Gateway afterwards.
@@ -25,9 +25,9 @@ Restart the Gateway afterwards.
 ### Option B: copy into your global extensions folder (dev)
 
 ```bash
-mkdir -p ~/.openclaw/extensions
-cp -R extensions/voice-call ~/.openclaw/extensions/voice-call
-cd ~/.openclaw/extensions/voice-call && pnpm install
+mkdir -p ~/.opencog/extensions
+cp -R extensions/voice-call ~/.opencog/extensions/voice-call
+cd ~/.opencog/extensions/voice-call && pnpm install
 ```
 
 ## Config
@@ -103,13 +103,13 @@ Notes:
 ## CLI
 
 ```bash
-openclaw voicecall call --to "+15555550123" --message "Hello from OpenClaw"
-openclaw voicecall continue --call-id <id> --message "Any questions?"
-openclaw voicecall speak --call-id <id> --message "One moment"
-openclaw voicecall end --call-id <id>
-openclaw voicecall status --call-id <id>
-openclaw voicecall tail
-openclaw voicecall expose --mode funnel
+opencog voicecall call --to "+15555550123" --message "Hello from OpenCog"
+opencog voicecall continue --call-id <id> --message "Any questions?"
+opencog voicecall speak --call-id <id> --message "One moment"
+opencog voicecall end --call-id <id>
+opencog voicecall status --call-id <id>
+opencog voicecall tail
+opencog voicecall expose --mode funnel
 ```
 
 ## Tool

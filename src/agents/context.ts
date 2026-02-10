@@ -2,8 +2,8 @@
 // the agent reports a model id. This includes custom models.json entries.
 
 import { loadConfig } from "../config/config.js";
-import { resolveOpenClawAgentDir } from "./agent-paths.js";
-import { ensureOpenClawModelsJson } from "./models-config.js";
+import { resolveOpenCogAgentDir } from "./agent-paths.js";
+import { ensureOpenCogModelsJson } from "./models-config.js";
 
 type ModelEntry = { id: string; contextWindow?: number };
 
@@ -12,8 +12,8 @@ const loadPromise = (async () => {
   try {
     const { discoverAuthStorage, discoverModels } = await import("./pi-model-discovery.js");
     const cfg = loadConfig();
-    await ensureOpenClawModelsJson(cfg);
-    const agentDir = resolveOpenClawAgentDir();
+    await ensureOpenCogModelsJson(cfg);
+    const agentDir = resolveOpenCogAgentDir();
     const authStorage = discoverAuthStorage(agentDir);
     const modelRegistry = discoverModels(authStorage, agentDir);
     const models = modelRegistry.getAll() as ModelEntry[];
