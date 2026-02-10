@@ -5,7 +5,7 @@
  * for querying the hypergraph knowledge base.
  */
 
-import type { Atom, Link, Node } from "./atom-types.js";
+import type { Atom, Node, TruthValue } from "./atom-types.js";
 import type { AtomSpace } from "./atomspace.js";
 import { AtomType, isLink, isNode } from "./atom-types.js";
 
@@ -215,7 +215,10 @@ export class PatternMatcher {
    * Evaluate a predicate on arguments
    * Example: Check if (Evaluation (Predicate "likes") (List John Mary)) exists
    */
-  evaluatePredicate(predicateName: string, args: string[]): { found: boolean; truthValue?: any } {
+  evaluatePredicate(
+    predicateName: string,
+    args: string[],
+  ): { found: boolean; truthValue?: TruthValue } {
     const predicateNode = this.atomspace.getNode(AtomType.PREDICATE_NODE, predicateName);
     if (!predicateNode) {
       return { found: false };
@@ -249,12 +252,12 @@ export class PatternMatcher {
   findPredicatesFor(entityId: string): Array<{
     predicate: Node;
     args: Node[];
-    truthValue: any;
+    truthValue: TruthValue | undefined;
   }> {
     const results: Array<{
       predicate: Node;
       args: Node[];
-      truthValue: any;
+      truthValue: TruthValue | undefined;
     }> = [];
 
     // Find all list links containing this entity

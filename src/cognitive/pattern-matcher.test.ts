@@ -5,7 +5,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { AtomType } from "./atom-types.js";
 import { AtomSpace } from "./atomspace.js";
-import { PatternMatcher, type PatternNode, type PatternLink } from "./pattern-matcher.js";
+import { PatternMatcher, type PatternLink } from "./pattern-matcher.js";
 
 describe("PatternMatcher", () => {
   let atomspace: AtomSpace;
@@ -116,9 +116,6 @@ describe("PatternMatcher", () => {
     });
 
     it("should match concrete pattern", () => {
-      const animal = atomspace.getNode(AtomType.CONCEPT_NODE, "Animal")!;
-      const cat = atomspace.getNode(AtomType.CONCEPT_NODE, "Cat")!;
-
       const pattern: PatternLink = {
         type: AtomType.INHERITANCE_LINK,
         outgoing: [
