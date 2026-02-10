@@ -155,7 +155,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.opencog.ai/cli/agen
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['opencog agents set-identity --agent main --name "OpenCog" --emoji "🦞"', "Set name + emoji."],
+  ['opencog agents set-identity --agent main --name "OpenCog" --emoji "🧠"', "Set name + emoji."],
   ["opencog agents set-identity --agent main --avatar avatars/opencog.png", "Set avatar path."],
   [
     "opencog agents set-identity --workspace ~/.opencog/workspace --from-identity",
