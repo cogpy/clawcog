@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/minimax-portal-auth",
+  "name": "@opencog/minimax-portal-auth",
   "version": "2026.2.9",
   "private": true,
-  "description": "OpenClaw MiniMax Portal OAuth provider plugin",
+  "description": "OpenCog MiniMax Portal OAuth provider plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "opencog": "workspace:*"
   },
-  "openclaw": {
+  "opencog": {
     "extensions": [
       "./index.ts"
     ]
