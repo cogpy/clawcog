@@ -26,12 +26,8 @@ import { logVerbose, shouldLogVerbose } from "../globals.js";
 import { runExec } from "../process/exec.js";
 import { MediaAttachmentCache, normalizeAttachments, selectAttachments } from "./attachments.js";
 import {
-  AUTO_AUDIO_KEY_PROVIDERS,
-  AUTO_IMAGE_KEY_PROVIDERS,
-  AUTO_VIDEO_KEY_PROVIDERS,
   CLI_OUTPUT_MAX_BUFFER,
   DEFAULT_AUDIO_MODELS,
-  DEFAULT_IMAGE_MODELS,
   DEFAULT_TIMEOUT_SECONDS,
 } from "./defaults.js";
 import { isMediaUnderstandingSkipError, MediaUnderstandingSkipError } from "./errors.js";
@@ -49,13 +45,11 @@ import {
   resolveScopeDecision,
   resolveTimeoutMs,
 } from "./resolve.js";
-import { fileExists, findBinary } from "./runner.binary.js";
-import { extractGeminiResponse, extractSherpaOnnxText, resolveCliOutput } from "./runner.cli.js";
+import { resolveCliOutput } from "./runner.cli.js";
 import {
   type ActiveMediaModel,
   buildModelDecision,
   formatDecisionSummary,
-  resolveActiveModelEntry,
   resolveAutoEntries,
   resolveAutoImageModel,
   resolveProviderQuery,
@@ -92,8 +86,6 @@ function trimOutput(text: string, maxChars?: number): string {
   }
   return trimmed.slice(0, maxChars).trim();
 }
-
-type ProviderQuery = Record<string, string | number | boolean>;
 
 async function runProviderEntry(params: {
   capability: MediaUnderstandingCapability;

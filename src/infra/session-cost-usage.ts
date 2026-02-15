@@ -9,6 +9,7 @@ import type {
   CostUsageTotals,
   DiscoveredSession,
   ParsedTranscriptEntry,
+  ParsedUsageEntry,
   SessionCostSummary,
   SessionDailyLatency,
   SessionDailyMessageCounts,
@@ -22,6 +23,7 @@ import type {
   SessionUsageTimePoint,
   SessionUsageTimeSeries,
 } from "./session-cost-usage.types.js";
+import { normalizeUsage } from "../agents/usage.js";
 import {
   resolveSessionFilePath,
   resolveSessionTranscriptsDirForAgent,
@@ -33,6 +35,7 @@ import {
   applyUsageTotals,
   computeLatencyStats,
   emptyTotals,
+  extractCostBreakdown,
   formatDayKey,
   parseTranscriptEntry,
 } from "./session-cost-usage.parsers.js";
