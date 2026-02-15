@@ -6,7 +6,6 @@ import type {
   MediaUnderstandingModelConfig,
 } from "../config/types.tools.js";
 import type {
-  MediaUnderstandingAttachmentDecision,
   MediaUnderstandingDecision,
   MediaUnderstandingModelDecision,
   MediaUnderstandingProvider,
@@ -256,7 +255,7 @@ export async function resolveAutoImageModel(params: {
   agentDir?: string;
   activeModel?: ActiveMediaModel;
 }): Promise<ActiveMediaModel | null> {
-  const providerRegistry = new Map<string, MediaUnderstandingProvider>();
+  const providerRegistry = buildMediaUnderstandingRegistry();
   const toActive = (entry: MediaUnderstandingModelConfig | null): ActiveMediaModel | null => {
     if (!entry || entry.type === "cli") {
       return null;
@@ -399,7 +398,7 @@ export function resolveProviderQuery(params: {
   if (providerId !== "deepgram") {
     return mergedOptions;
   }
-  let query = normalizeDeepgramQueryKeys(mergedOptions ?? {});
+  const query = normalizeDeepgramQueryKeys(mergedOptions ?? {});
   const compat = buildDeepgramCompatQuery({ ...config?.deepgram, ...entry.deepgram });
   for (const [key, value] of Object.entries(compat ?? {})) {
     if (query[key] === undefined) {
@@ -439,20 +438,14 @@ export function buildModelDecision(params: {
 export function formatDecisionSummary(decision: MediaUnderstandingDecision): string {
   const total = decision.attachments.length;
   const success = decision.attachments.filter(
-    (entry: MediaUnderstandingAttachmentDecision) => entry.chosen?.outcome === "success",
+    (entry) => entry.chosen?.outcome === "success",
   ).length;
-  const chosen = decision.attachments.find(
-    (entry: MediaUnderstandingAttachmentDecision) => entry.chosen,
-  )?.chosen;
+  const chosen = decision.attachments.find((entry) => entry.chosen)?.chosen;
   const provider = chosen?.provider?.trim();
   const model = chosen?.model?.trim();
   const modelLabel = provider ? (model ? `${provider}/${model}` : provider) : undefined;
   const reason = decision.attachments
-    .flatMap((entry: MediaUnderstandingAttachmentDecision) =>
-      entry.attempts
-        .map((attempt: MediaUnderstandingModelDecision) => attempt.reason)
-        .filter(Boolean),
-    )
+    .flatMap((entry) => entry.attempts.map((attempt) => attempt.reason).filter(Boolean))
     .find(Boolean);
   const shortReason = reason ? reason.split(":")[0]?.trim() : undefined;
   const countLabel = total > 0 ? ` (${success}/${total})` : "";
