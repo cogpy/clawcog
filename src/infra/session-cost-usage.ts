@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import readline from "node:readline";
-import type { NormalizedUsage } from "../agents/usage.js";
 import type { OpenCogConfig } from "../config/config.js";
 import type { SessionEntry } from "../config/sessions/types.js";
 import type {
@@ -35,7 +34,6 @@ import {
   computeLatencyStats,
   emptyTotals,
   formatDayKey,
-  parseTimestamp,
   parseTranscriptEntry,
 } from "./session-cost-usage.parsers.js";
 
